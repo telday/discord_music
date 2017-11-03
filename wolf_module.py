@@ -8,6 +8,7 @@
 	NOTES: Return query is structured as follows.
 	Result -> [Pods] -> [SubPods] -> "Text"
 """
+#NOTE: DEPENDENCY: python3 wolframalpha module
 import Python_Binding_1_1.wap.py
 
 client = wolframalpha.Client('URQ5WU-K3TRKE2JHW')
