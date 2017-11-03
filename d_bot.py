@@ -4,6 +4,7 @@
 	language: python 3.6
 	description: Bot with few functionalities for discord
 """
+#NOTE: DEPENDENCY: python3 discord module
 #https://discordapp.com/api/oauth2/authorize?client_id=375689285690589186&scope=bot&permissions=0
 import discord
 from random import choice
