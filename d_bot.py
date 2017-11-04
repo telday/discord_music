@@ -9,6 +9,7 @@
 import discord
 from random import choice
 from discord.ext import commands
+import simple_commands
 
 bot = commands.Bot(command_prefix=":", description="Test Bot")
 
@@ -43,13 +44,13 @@ async def flip_coin():
 	await bot.say(choice(["Heads", "Tails"]))
 
 
-@bot.command(description="Rolls a die Format: \":roll_die arg\"")
-async def roll_die(maximum : int):
+@bot.command(description="Rolls a die")
+async def roll_die(minimum : int, maximum : int):
 	"""
-		Int -> int
-		Takes in an integer as the max number on the die and prints a
-		random selection to the chat
+		NatNum * NatNum -> NatNum
+		Takes in an integer as the min and max number on the die and prints a
+		random selection to the chat.
 	"""
-	await bot.say(choice(range(1, maximum)))
+	await bot.say(simple_commands.roll_die_l(minimum, maximum))
 
 bot.run('Mzc1Njg5Mjg1NjkwNTg5MTg2.DNzfkw.SaEXRWDODM5NaeBh0sOnxy6j6ok')
