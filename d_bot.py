@@ -1,6 +1,6 @@
 """
 	file: d_bot.py
-	author: Ellis Wright
+	author: Ellis Wright/Brian Shaw
 	language: python 3.6
 	description: Bot with few functionalities for discord
 """
