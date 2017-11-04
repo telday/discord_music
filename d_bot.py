@@ -7,7 +7,6 @@
 #NOTE: DEPENDENCY: python3 discord module
 #https://discordapp.com/api/oauth2/authorize?client_id=375689285690589186&scope=bot&permissions=0
 import discord
-import module
 from random import choice
 from discord.ext import commands
 
@@ -42,7 +41,7 @@ async def flip_coin():
 		Really?
 	"""
 	await bot.say(choice(["Heads", "Tails"]))
-	await module.hello()
+
 
 @bot.command(description="Rolls a die Format: \":roll_die arg\"")
 async def roll_die(maximum : int):
