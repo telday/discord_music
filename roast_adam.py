@@ -5,6 +5,7 @@
 	description: This will determine how salty adam currently is
 """
 #This will test if adam is a salty sea bear
-import random
+from random import choice
 
 def salty_status():
+	return choice(["Adam is a salty sea bear","I'd say a solid 11 out of 5","Holy fuckbeans, the saltiest level","Not very salty...","Unsalty","Is a bear of salt"])
