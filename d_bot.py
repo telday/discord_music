@@ -1,12 +1,13 @@
 """
 	file: d_bot.py
-	author: Ellis Wright
+	author: Ellis Wright/Brian Shaw
 	language: python 3.6
 	description: Bot with few functionalities for discord
 """
 #NOTE: DEPENDENCY: python3 discord module
 #https://discordapp.com/api/oauth2/authorize?client_id=375689285690589186&scope=bot&permissions=0
 import discord
+import roast_adam
 from random import choice
 from discord.ext import commands
 import simple_commands
@@ -42,6 +43,14 @@ async def flip_coin():
 		Really?
 	"""
 	await bot.say(choice(["Heads", "Tails"]))
+
+@bot.command(description="How salty is Adam?")
+async def adam_salt():
+	"""
+		No input
+		Return a random String
+	"""
+	await bot.say(roast_adam.salty_status())
 
 
 @bot.command(description="Rolls a die")
