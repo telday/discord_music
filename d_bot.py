@@ -15,6 +15,8 @@ from discord import opus
 
 bot = commands.Bot(command_prefix=":", description="Test Bot")
 start_time = 0
+vcg = None
+plr = None
 
 
 OPUS_LIBS = ['libopus-0.x86.dll', 'libopus-0.x64.dll', 'libopus-0.dll', 'libopus.so.0', 'libopus.0.dylib']
@@ -80,16 +82,38 @@ async def uptime():
 	global start_time
 	await bot.say("{0:.2f}".format(time() - start_time) + " seconds")
 
+@bot.command(description="Sets the volume of the youtube player")
+async def set_volume(vol : float):
+	global plr
+	if (vol >= 0 and vol <= 1):
+		plr.volume = vol
+
 @bot.command(pass_context=True, description="Play a yt link")
 async def yt(ctx, url : str):
 	"""
 		Takes in a youtube link and plays the video
 	"""
+	global vcg
+	global plr
+	if plr != None and not plr.is_done():
+		await bot.say("The bot is currently playing a video... Use command :kill to stop the current video.")
+		return
 	author = ctx.message.author
 	voice_channel = author.voice_channel
-	vc = await bot.join_voice_channel(voice_channel)
+	if vcg == None:
+		vcg = await bot.join_voice_channel(voice_channel)
 	
-	player = await vc.create_ytdl_player(url)
-	player.start()
+	plr = await vcg.create_ytdl_player(url)
+	plr.start()
+	
+@bot.command(pass_context=True, description="Kills the current players song")
+async def kill():
+	"""
+		Kills the current song playing in the player.
+	"""
+	global plr
+	if plr != None:
+		plr.stop()
+
 
 bot.run('Mzc1Njg5Mjg1NjkwNTg5MTg2.DNzfkw.SaEXRWDODM5NaeBh0sOnxy6j6ok')

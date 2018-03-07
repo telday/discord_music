@@ -6,6 +6,7 @@
 """
 from random import choice, seed
 from time import time
+
 def roll_die_l(minimum, maximum):
     """
         NatNum * NatNum -> NatNum
