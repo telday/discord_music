@@ -6,6 +6,7 @@
 	language: python3.6
 """
 import discord
+from discord.ext import commands
 
 
 class Playlist:
@@ -14,8 +15,9 @@ class Playlist:
 	player = None
 	voice_channel = None
 	
-	def __init__(self):
+	def __init__(self, bot):
 		self.load_opus_lib()
+		self.bot = bot
 	
 	
 	def load_opus_lib(opus_libs=OPUS_LIBS):
@@ -47,3 +49,9 @@ class Playlist:
 		
 		self.player = await self.voice_channel.create_ytdl_player(url)
 		self.player.start()
+	
+	@commands.command(description="Sets the volume of the youtube player")
+	async def set_volume(self, vol : float):
+		if (vol >= 0 and vol <= 1):
+			if (self.player != None and self.player.is_playing()):
+				self.player.volume = vol

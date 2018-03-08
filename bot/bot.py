@@ -26,7 +26,6 @@ async def on_ready():
 	global plr
 	print("Logged in as: ", bot.user.name)
 	start_time = time()
-	plr = Playlist()
 
 #NOTE: Only works on messages cached after the bot starts running
 @bot.event
@@ -66,12 +65,6 @@ async def uptime():
 	global start_time
 	await bot.say("{0:.2f}".format(time() - start_time) + " seconds")
 
-@bot.command(description="Sets the volume of the youtube player")
-async def set_volume(vol : float):
-	global plr
-	if (vol >= 0 and vol <= 1):
-		plr.volume = vol
-
 @bot.command(pass_context=True, description="Play a yt link")
 async def yt(ctx, url : str):
 	"""
@@ -84,5 +77,6 @@ async def yt(ctx, url : str):
 	
 	await plr.play_link(bot, voice_channel, url)
 
-
+plr = Playlist(bot)
+bot.add_cog(Playlist(plr))
 bot.run('Mzc1Njg5Mjg1NjkwNTg5MTg2.DNzfkw.SaEXRWDODM5NaeBh0sOnxy6j6ok')
