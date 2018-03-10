@@ -1,25 +1,24 @@
 """
 	file: Playlist.py
 	description: class for a playlist for the music bot to use
-	
+
 	author: Ellis Wright
 	language: python3.6
 """
 import discord
 from discord.ext import commands
-
+from voice import *
 
 class Playlist:
 	#List of all the libraries opus needs
 	OPUS_LIBS = ['libopus-0.x86.dll', 'libopus-0.x64.dll', 'libopus-0.dll', 'libopus.so.0', 'libopus.0.dylib']
-	player = None
 	voice_channel = None
-	
+
 	def __init__(self, bot):
 		self.load_opus_lib()
 		self.bot = bot
-	
-	
+		self.voice_player = VoicePlayer(self.bot, None)
+
 	def load_opus_lib(opus_libs=OPUS_LIBS):
 		"""
 			Loads the opus library for the bot to used. Required for sound.
@@ -34,24 +33,25 @@ class Playlist:
 			except OSError:
 				pass
 
-	
+
 	async def play_link(self, bot, voice_channel, url):
 		"""
 			Plays the given link on the given bot in the given voice channel.
 		"""
-		if self.player != None and not self.player.is_done():
-			self.player.stop()
-		
+		state = None
 		try:
-			self.voice_channel = await bot.join_voice_channel(voice_channel)
-		except Exception:
+			state = await self.voice_player.player.join_voice_channel(voice_channel)
+		except:
 			pass
-		
-		self.player = await self.voice_channel.create_ytdl_player(url)
-		self.player.start()
-	
+
+		self.voice_player.set_voice_state(state)
+		await self.voice_player.add_song(url)
+
+	@commands.command(pass_context=True)
+	async def join(self, ctx):
+		channel = ctx.message.author.voice_channel
+		self.voice_player.join_channel(channel)
+
 	@commands.command(description="Sets the volume of the youtube player")
 	async def set_volume(self, vol : float):
-		if (vol >= 0 and vol <= 1):
-			if (self.player != None and self.player.is_playing()):
-				self.player.volume = vol
+		self.voice_player.player.volume = vol

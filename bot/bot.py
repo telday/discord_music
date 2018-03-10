@@ -74,9 +74,17 @@ async def yt(ctx, url : str):
 	#Get the voice channel the author who sent the command is in
 	author = ctx.message.author
 	voice_channel = author.voice_channel
-	
+
 	await plr.play_link(bot, voice_channel, url)
 
+@bot.command()
+async def v(vol : float):
+	global plr
+	if plr != None:
+		plr.volume = vol
+	else:
+		print("what the fuck")
+
 plr = Playlist(bot)
-bot.add_cog(Playlist(plr))
+bot.add_cog(plr)
 bot.run('Mzc1Njg5Mjg1NjkwNTg5MTg2.DNzfkw.SaEXRWDODM5NaeBh0sOnxy6j6ok')
