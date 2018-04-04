@@ -11,7 +11,7 @@ import asyncio
 from discord.ext import commands
 from queue import Queue
 import string
-from VoiceState import VoiceState
+from voice_state import VoiceState
 from utils import load_opus_lib
 
 bot = commands.Bot(command_prefix="$", description="Test Bot")		
