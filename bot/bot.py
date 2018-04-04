@@ -71,14 +71,6 @@ async def on_ready():
 	print("Logged in as: ", bot.user.name)
 
 @bot.command()
-async def v(vol : float):
-	global plr
-	if plr != None:
-		plr.volume = vol
-	else:
-		print("what the fuck")
-
-@bot.command()
 async def scared():
 	await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
 
