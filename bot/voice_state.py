@@ -18,7 +18,6 @@ class VoiceState:
 		if self.voice_channel != voice:
 			self.voice_channel = voice
 			if self.voice_state != None:
-				self.voice_state.disconnect()
 				await self.voice_state.move_to(voice)
 			else:
 				self.voice_channel = voice
