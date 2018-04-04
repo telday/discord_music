@@ -17,7 +17,12 @@ class VoiceState:
 		voice = ctx.message.author.voice_channel
 		if self.voice_channel != voice:
 			self.voice_channel = voice
-			self.voice_state = await self.bot.join_voice_channel(voice)
+			if self.voice_state != None:
+				self.voice_state.disconnect()
+				await self.voice_state.move_to(voice)
+			else:
+				self.voice_channel = voice
+				self.voice_state = await self.bot.join_voice_channel(voice)
 	
 	async def join(self, voice_channel):
 		self.voice_channel = voice_channel

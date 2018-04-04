@@ -34,24 +34,15 @@ class Playlist:
 	
 	@commands.command(pass_context=True)
 	async def add(self, ctx, url : str):
-		info = (ctx.message.author.voice_channel, url)
-		if self.voice_state == None:
-			self.voice_state = await self.bot.join_voice_channel(info[0])
-		print("Adding song to playlist on voice channel {} with url: {}".format(ctx.message.author.voice_channel, url))
-		await self.queue.put(info)
+		if not self.voice_state.is_active():
+			self.voice_state.join(ctx.message.author.voice_channel)
+		await bot.say("Adding song to playlist...")
+		await self.queue.put(url)
 
 	@commands.command()
 	async def kill(self):
 		if self.player != None:
 			self.player.stop()
-	
-	async def play(self):
-		while True:
-			self.play_event.clear()
-			info = await self.queue.get()
-			self.player = await self.voice_state.create_ytdl_player(info[1], after=self.toggle)
-			self.player.start()
-			await self.play_event.wait()
 
 	@commands.command()
 	async def pause(self):
@@ -62,6 +53,14 @@ class Playlist:
 	async def resume(self):
 		if self.player != None:
 			self.player.resume()
+	
+	async def play(self):
+		while True:
+			self.play_event.clear()
+			url = await self.queue.get()
+			self.player = await self.voice_state.create_ytdl_player(url, after=self.toggle)
+			self.player.start()
+			await self.play_event.wait()
 	
 @bot.event
 async def on_ready():
