@@ -11,48 +11,26 @@ import asyncio
 from discord.ext import commands
 from queue import Queue
 import string
+from VoiceState import VoiceState
+from utils import load_opus_lib
 
 bot = commands.Bot(command_prefix="$", description="Test Bot")		
 
 
 class Playlist:
-	OPUS_LIBS = ['libopus-0.x86.dll', 'libopus-0.x64.dll', 'libopus-0.dll', 'libopus.so.0', 'libopus.0.dylib']
-
-	player = None
-	voice_state = None
 	
 	def __init__(self, bot):
-		self.load_opus_lib()
+		load_opus_lib()
 		self.bot = bot
+		self.voice_state = VoiceState(self.bot)
+		self.bot.add_cog(self.voice_state)
+		
 		self.queue = asyncio.Queue()
 		self.play_event = asyncio.Event()
 		self.bot.loop.create_task(self.play())
 
-	def load_opus_lib(opus_libs=OPUS_LIBS):
-		"""
-			Loads the opus library for the bot to used. Required for sound.
-		"""
-		if discord.opus.is_loaded():
-			return True
-
-		for opus_lib in opus_libs:
-			try:
-				discord.opus.load_opus(opus_lib)
-				return
-			except OSError:
-				pass
-
 	def toggle(self):
 		self.bot.loop.call_soon_threadsafe(self.play_event.set)
-	
-	songs = ["https://www.youtube.com/watch?v=CD-E-LDc384", "https://www.youtube.com/watch?v=94bGzWyHbu0", "https://www.youtube.com/watch?v=zUzd9KyIDrM", "https://www.youtube.com/watch?v=3L4YrGaR8E4"]
-	@commands.command(pass_context=True)
-	async def add_song_remote(self, ctx):
-		if self.voice_state == None:
-			self.voice_state = await self.bot.join_voice_channel(ctx.message.author.voice_channel)
-		for i in self.songs:
-			info = (ctx.message.author.voice_channel, i)
-			await self.queue.put(info)
 	
 	@commands.command(pass_context=True)
 	async def add(self, ctx, url : str):
