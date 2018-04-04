@@ -12,13 +12,18 @@ from discord.ext import commands
 from queue import Queue
 import string
 from voice_state import VoiceState
-from utils import load_opus_lib
+from utils import load_opus_lib		
 
-bot = commands.Bot(command_prefix="$", description="Test Bot")		
+bot = commands.Bot(command_prefix="$", description="Music Bot")
 
+@bot.event
+async def on_ready():
+	"""
+		Called on script start
+	"""
+	print("Logged in as: ", bot.user.name)
 
 class Playlist:
-	
 	def __init__(self, bot):
 		load_opus_lib()
 		self.bot = bot
@@ -61,17 +66,11 @@ class Playlist:
 			self.player = await self.voice_state.create_ytdl_player(url, after=self.toggle)
 			self.player.start()
 			await self.play_event.wait()
-	
-@bot.event
-async def on_ready():
-	"""
-		Called on script start
-	"""
-	print("Logged in as: ", bot.user.name)
 
-@bot.command()
-async def scared():
-	await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
+	@commands.command()
+	async def scared():
+		await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
 
-bot.add_cog(Playlist(bot))
-bot.run('NDI2NTI0MDg0MDA0NzE2NTU3.DZXPBA.h7B44TMwKXmD-PWbgF5_LK8bZj4')
+if __name__ == "__main__":
+	bot.add_cog(Playlist(bot))
+	bot.run('NDI2NTI0MDg0MDA0NzE2NTU3.DZXPBA.h7B44TMwKXmD-PWbgF5_LK8bZj4')
