@@ -1,37 +1,18 @@
-## Welcome to GitHub Pages
+# Music Bot
 
-You can use the [editor on GitHub](https://github.com/ewright393/bot_discord/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+A simple music bot for your discord server written in python 3 using the [discord.py api](https://github.com/Rapptz/discord.py)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Requirements
 
-### Markdown
+* python 3.6
+  * discord.py module
+  * discord.py[voice] module
+* A running version of discord
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Using The Bot
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
+* Create a bot and generate a bot token [here](https://discordapp.com/developers/applications/me)
+* Add the token to a file called "token.txt"
+* Run the bot.py file
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ewright393/bot_discord/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
