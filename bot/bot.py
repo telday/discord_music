@@ -63,7 +63,7 @@ class Playlist:
 		while True:
 			self.play_event.clear()
 			url = await self.queue.get()
-			self.player = await self.voice_state.create_ytdl_player(url, after=self.toggle)
+			self.player = await self.voice_state.voice_state.create_ytdl_player(url, after=self.toggle)
 			self.player.start()
 			await self.play_event.wait()
 
