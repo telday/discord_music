@@ -40,7 +40,7 @@ class Playlist:
 	@commands.command(pass_context=True)
 	async def add(self, ctx, url : str):
 		if not self.voice_state.is_active():
-			self.voice_state.join(ctx.message.author.voice_channel)
+			await self.voice_state.join(ctx.message.author.voice_channel)
 		await bot.say("Adding song to playlist...")
 		await self.queue.put(url)
 
