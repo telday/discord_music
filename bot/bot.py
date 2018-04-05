@@ -72,5 +72,9 @@ class Playlist:
 		await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
 
 if __name__ == "__main__":
+	file_ = open("token.txt", 'r')
+	token = file_.readline()
+	file_.close()
+	
 	bot.add_cog(Playlist(bot))
-	bot.run('NDI2NTI0MDg0MDA0NzE2NTU3.DZXPBA.h7B44TMwKXmD-PWbgF5_LK8bZj4')
+	bot.run(token)
