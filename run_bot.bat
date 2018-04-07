@@ -22,6 +22,7 @@ IF Not Exist token.txt (
 
 :cont
 python bot\bot.py
+pause
 exit
 
 :getInput
