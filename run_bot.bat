@@ -20,6 +20,9 @@ IF Not Exist token.txt (
 	goto getInput
 )
 
+@rem for logging purposes
+IF Not Exist log (mkdir log)
+
 :cont
 python bot\bot.py
 pause
