@@ -73,7 +73,7 @@ class Playlist:
 
 if __name__ == "__main__":
 	file_ = open("token.txt", 'r')
-	token = file_.readline()
+	token = file_.readline().strip()
 	file_.close()
 	
 	bot.add_cog(Playlist(bot))
