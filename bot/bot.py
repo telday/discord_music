@@ -27,8 +27,8 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-	logger.log_event("[{}][{}] : {}".format(message.channel, message.author, message.content))
-	bot.process_commands(message)
+	logger.log_event("[{}][{}] : {}\n".format(message.channel, message.author, message.content))
+	await bot.process_commands(message)
 
 class Playlist:
 	def __init__(self, bot):
