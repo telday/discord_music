@@ -12,8 +12,8 @@ from discord.ext import commands
 from queue import Queue
 import string
 from voice_state import VoiceState
-from utils import load_opus_lib		
-from logger import Logger
+from utils.utils import load_opus_lib		
+from utils.logger import Logger
 
 bot = commands.Bot(command_prefix="$", description="Music Bot")
 logger = Logger()
