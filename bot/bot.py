@@ -13,8 +13,10 @@ from queue import Queue
 import string
 from voice_state import VoiceState
 from utils import load_opus_lib		
+from logger import Logger
 
 bot = commands.Bot(command_prefix="$", description="Music Bot")
+logger = Logger()
 
 @bot.event
 async def on_ready():
@@ -23,13 +25,21 @@ async def on_ready():
 	"""
 	print("Logged in as: ", bot.user.name)
 
+@bot.event
+async def on_message(message):
+	logger.log_event("[{}][{}] : {}".format(message.channel, message.author, message.content))
+	bot.process_commands(message)
+
 class Playlist:
 	def __init__(self, bot):
+		global logger
 		load_opus_lib()
 		self.bot = bot
 		self.voice_state = VoiceState(self.bot)
 		self.bot.add_cog(self.voice_state)
-		
+		self.logger = logger
+		self.logger.start()
+
 		self.queue = asyncio.Queue()
 		self.play_event = asyncio.Event()
 		self.bot.loop.create_task(self.play())
