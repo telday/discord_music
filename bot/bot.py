@@ -14,9 +14,11 @@ import string
 from voice_state import VoiceState
 from utils.utils import load_opus_lib		
 from utils.logger import Logger
+from command_writer import CommandWriter
 
 bot = commands.Bot(command_prefix="$", description="Music Bot")
 logger = Logger()
+command_writer = CommandWriter(bot)
 
 @bot.event
 async def on_ready():
@@ -28,15 +30,18 @@ async def on_ready():
 @bot.event
 async def on_message(message):
 	logger.log_event("[{}][{}] : {}\n".format(message.channel, message.author, message.content))
+	await command_writer.process_command(message.channel, message.content)
 	await bot.process_commands(message)
 
 class Playlist:
 	def __init__(self, bot):
 		global logger
+		global command_writer
 		load_opus_lib()
 		self.bot = bot
 		self.voice_state = VoiceState(self.bot)
 		self.bot.add_cog(self.voice_state)
+		self.bot.add_cog(command_writer)
 		self.logger = logger
 		self.logger.start()
 
