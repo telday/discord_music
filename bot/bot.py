@@ -85,6 +85,10 @@ class Playlist:
 	@commands.command()
 	async def scared():
 		await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
+		
+	@commands.command()
+	async def restart(self):
+		exit(1)
 
 if __name__ == "__main__":
 	file_ = open("token.txt", 'r')

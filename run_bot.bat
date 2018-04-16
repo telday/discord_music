@@ -25,6 +25,7 @@ IF Not Exist log (mkdir log)
 
 :cont
 python bot\bot.py
+IF ERRORLEVEL 1 goto cont
 pause
 exit
 
