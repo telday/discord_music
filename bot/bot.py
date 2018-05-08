@@ -29,7 +29,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-	logger.log_event("[{}][{}] : {}\n".format(message.channel, message.author, message.content))
+	await logger.log_event("[{}][{}] : {}\n".format(message.channel, message.author, message.content))
 	await command_writer.process_command(message.channel, message.content)
 	await bot.process_commands(message)
 
@@ -43,7 +43,6 @@ class Playlist:
 		self.bot.add_cog(self.voice_state)
 		self.bot.add_cog(command_writer)
 		self.logger = logger
-		self.logger.start()
 
 		self.queue = asyncio.Queue()
 		self.play_event = asyncio.Event()
