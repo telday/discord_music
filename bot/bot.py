@@ -15,6 +15,7 @@ from voice_state import VoiceState
 from utils.utils import load_opus_lib		
 from utils.logger import Logger
 from command_writer import CommandWriter
+from youtube_dl.utils import ExtractorError
 
 bot = commands.Bot(command_prefix="$", description="Music Bot")
 logger = Logger()
@@ -57,10 +58,10 @@ class Playlist:
 		if not self.voice_state.is_active():
 			await self.voice_state.join(ctx.message.author.voice_channel)
 		await bot.say("Adding song to playlist...")
-		await self.queue.put(url)
+		await self.queue.put((url, ctx.message.channel))
 
 	@commands.command()
-	async def kill(self):
+	async def skip(self):
 		if self.player != None:
 			self.player.stop()
 
@@ -77,17 +78,20 @@ class Playlist:
 	async def play(self):
 		while True:
 			self.play_event.clear()
-			url = await self.queue.get()
-			self.player = await self.voice_state.voice_state.create_ytdl_player(url, after=self.toggle)
-			self.player.start()
-			await self.play_event.wait()
-
-	@commands.command()
-	async def scared():
-		await bot.say("https://i.imgur.com/Dqbyu3x.gifv")
-		
+			info = await self.queue.get()
+			url = info[0]
+			try:
+				self.player = await self.voice_state.voice_state.create_ytdl_player(url, after=self.toggle)
+				self.player.start()
+				await self.play_event.wait()
+			except Exception as e:
+				#For some reason youtube_dl wont let me catch its errors here so we have to go general TODO: find a fix?
+				await self.bot.send_message(info[1], "The given URL was invalid...")
+	
+	
 	@commands.command()
 	async def restart(self):
+		#Some would call this a crude hack... They'd be right.
 		exit(1)
 
 if __name__ == "__main__":
