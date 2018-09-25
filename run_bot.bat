@@ -2,7 +2,6 @@
 TITLE Music Bot
 
 @rem This is to make sure there is some form of python in path
-@rem Some would call this a shitty hack... I call it a shitty workaround
 reg query HKCU\Environment /v PATH>tmp.txt
 echo %PATH%>>tmp.txt
 findstr /I /C:"python" tmp.txt > tmp.txt
